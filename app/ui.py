@@ -1,10 +1,22 @@
 import tkinter as tk
 from tkinter import scrolledtext
 
+from app.assets import data_카카오톡채널
 from app.openai_helper import OpenAiHelper
 
 FONT = ("맑은 고딕", 12)
 openai_helper = OpenAiHelper()
+data = data_카카오톡채널()
+openai_helper.set_system_prompt(f'''
+    너는 카카오톡 채널 문서를 읽고 유저의 질문에 답변하는 챗봇이다
+    성실하게 데이터를 검토하고 적절한 답변을 해야 한다
+    답변은 자세한 답변을 요구하기 전까지는 두세 문장의 짧은 답변을 하라
+    가능한 관련 link 를 첨부해서 유저가 문서에 직접 접근할 수 있도록 하라
+    
+    참조할 데이터는 아래와 같다
+    ===================
+    {data}
+    ''')
 
 
 def setup_ui():
@@ -37,6 +49,9 @@ def setup_ui():
 
 def _on_click_send(ui_conversation, ui_user_entry):
     user_input = ui_user_entry.get()
+    if user_input is None or user_input == "":
+        return
+
     _clear_user_entry(ui_user_entry)
 
     if user_input.lower() == "quit":
