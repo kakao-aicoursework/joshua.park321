@@ -1,35 +1,15 @@
 import tkinter as tk
 from tkinter import scrolledtext
 
-from app.openai_helper import send_message
+from app.openai_helper import OpenAiHelper
 
 FONT = ("맑은 고딕", 12)
-
-# openai 에 넘길 메세지들
-message_log = [
-    {
-        "role": "system",
-        "content": '''
-            You are a DJ assistant who creates playlists. Your user will be Korean, so communicate in Korean, but you must not translate artists' names and song titles into Korean.
-                - At first, suggest songs to make a playlist based on users' request. The playlist must contains the title, artist, and release year of each song in a list format. You must ask the user if they want to save the playlist as follow: "이 플레이리스트를 CSV로 저장하시겠습니까?"
-            '''
-    }
-]
+openai_helper = OpenAiHelper()
 
 
 def setup_ui():
     window = tk.Tk()
     window.title("GPT AI")
-
-    message_log = [
-        {
-            "role": "system",
-            "content": '''
-                You are a DJ assistant who creates playlists. Your user will be Korean, so communicate in Korean, but you must not translate artists' names and song titles into Korean.
-                    - At first, suggest songs to make a playlist based on users' request. The playlist must contains the title, artist, and release year of each song in a list format. You must ask the user if they want to save the playlist as follow: "이 플레이리스트를 CSV로 저장하시겠습니까?"
-                '''
-        }
-    ]
 
     ui_conversation = scrolledtext.ScrolledText(window, wrap=tk.WORD, fg='black', bg='#f0f0f0', font=FONT)
     # width, height를 없애고 배경색 지정하기(2)
@@ -63,17 +43,13 @@ def _on_click_send(ui_conversation, ui_user_entry):
         window.destroy()
         return
 
-    _append_user_message(user_input)
     _write_message_on_ui(user_input, 'user', ui_conversation)
-    response = _send_message_with_popup(message_log)
+    response = _send_message_with_popup(user_input)
     _write_message_on_ui(response, 'assistant', ui_conversation)
 
 def _clear_user_entry(ui_user_entry):
     ui_user_entry.delete(0, tk.END)
 
-
-def _append_user_message(user_input):
-    message_log.append({"role": "user", "content": user_input})
 
 
 def _write_message_on_ui(message, role, ui_conversation):
@@ -83,11 +59,11 @@ def _write_message_on_ui(message, role, ui_conversation):
     ui_conversation.see(tk.END)
 
 
-def _send_message_with_popup(message_log):
+def _send_message_with_popup(user_input):
     thinking_popup = _show_popup_message(window, "처리중...")
     window.update_idletasks()
     # '생각 중...' 팝업 창이 반드시 화면에 나타나도록 강제로 설정하기
-    response = send_message(message_log)
+    response = openai_helper.send_user_message_and_get_content(user_input)
     thinking_popup.destroy()
 
     return response
