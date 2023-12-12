@@ -8,6 +8,10 @@ openai = "==0.28"
 pandas = "*"
 chromadb = "*"
 pytest = "*"
+fastapi = "*"
+uvicorn = "*"
+gunicorn = "*"
+aiohttp = "*"
 
 [dev-packages]
 pytest = "*"
