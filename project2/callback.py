@@ -1,12 +1,21 @@
 from dto import ChatbotRequest
-from samples import list_card
 import requests
 import time
 import logging
 
 from langchain_helper import LangchainHelper
+from assets import data_카카오싱크
 
-SYSTEM_MSG = "당신은 카카오 서비스 제공자입니다."
+SYSTEM_MSG = f'''
+당신은 카카오 서비스 제공자입니다. 제공되는 데이터를 참조해서 답변을 해주세요.
+답변은 자세한 답변을 요구하기 전까지는 두세 문장의 짧은 답변을 하라
+가능한 관련 link 를 첨부해서 유저가 문서에 직접 접근할 수 있도록 하라
+번호나 리스트 형태로 정리해서 답변하라
+
+=============
+{data_카카오싱크()}
+'''
+
 logger = logging.getLogger("Callback")
 
 langchain = LangchainHelper()
