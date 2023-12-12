@@ -1,5 +1,5 @@
-from app.openai_helper import OpenAiHelper
-from app.assets import data_카카오톡채널
+from project1.openai_helper import OpenAiHelper
+from project1.assets import data_카카오톡채널
 
 
 def test_openai_helper_with_asset():

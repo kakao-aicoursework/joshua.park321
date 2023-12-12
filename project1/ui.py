@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import scrolledtext
 
-from app.assets import data_카카오톡채널
-from app.openai_helper import OpenAiHelper
+from project1.assets import data_카카오톡채널
+from project1.openai_helper import OpenAiHelper
 
 FONT = ("맑은 고딕", 12)
 openai_helper = OpenAiHelper()
