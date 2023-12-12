@@ -12,6 +12,7 @@ fastapi = "*"
 uvicorn = "*"
 gunicorn = "*"
 aiohttp = "*"
+langchain = "*"
 
 [dev-packages]
 pytest = "*"
