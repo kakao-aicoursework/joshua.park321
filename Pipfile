@@ -13,6 +13,7 @@ uvicorn = "*"
 gunicorn = "*"
 aiohttp = "*"
 langchain = "*"
+requests = "*"
 
 [dev-packages]
 pytest = "*"

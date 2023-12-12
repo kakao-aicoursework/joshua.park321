@@ -36,7 +36,6 @@ async def skill(req: ChatbotRequest):
 @app.post("/callback")
 async def skill(req: ChatbotRequest, background_tasks: BackgroundTasks):
     #핸들러 호출 / background_tasks 변경가능
-    background_tasks.add_task(callback_handler, req)
     out = {
         "version" : "2.0",
         "useCallback" : True,
@@ -44,4 +43,5 @@ async def skill(req: ChatbotRequest, background_tasks: BackgroundTasks):
             "text" : "생각하고 있는 중이에요😘 \n15초 정도 소요될 거 같아요 기다려 주실래요?!"
         }
     }
+    background_tasks.add_task(callback_handler, req)
     return out

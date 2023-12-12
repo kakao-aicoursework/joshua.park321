@@ -17,17 +17,23 @@ class LangchainHelper:
     _system_prompt = {}
     _history = []
 
-    def __init__(self, model="gpt-3.5-turbo-16k", temperature=0.1, max_tokens=1024):
+    def __init__(self, model="gpt-3.5-turbo-16k", temperature=0.1, max_tokens=1024, max_history=10):
         self.chat = ChatOpenAI(
             openai_api_key=self._read_openai_key(),
             model_name=model,
             temperature=temperature,
             max_tokens=max_tokens,
         )
+        self._max_history = max_history
 
     def _read_openai_key(self):
         with open(self._key_path) as f:
             return f.readline()
+
+    def _append_to_history(self, message):
+        self._history.append(message)
+        if len(self._history) > self._max_history:
+            self._history.pop(0)
 
     @property
     def system_prompt(self):
@@ -42,8 +48,11 @@ class LangchainHelper:
     def send_human_message(self, message: str):
         human_message = HumanMessage(content=message)
 
-        self._history.append(human_message)
+        self._append_to_history(human_message)
         request_prompts = [self._system_prompt] + self._history
-        response = self.chat(request_prompts)
+        logging.info(f'request_prompts: {request_prompts}')
+        ai_message = self.chat(request_prompts)
+        logging.info(f'response: {ai_message}')
+        self._append_to_history(ai_message)
 
-        return response
+        return ai_message

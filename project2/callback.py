@@ -1,34 +1,34 @@
 from dto import ChatbotRequest
 from samples import list_card
-import aiohttp
+import requests
 import time
 import logging
-import openai
 
-import os
-
-def read_openai_key(key_path='../openai_key'):
-    with open(key_path) as f:
-        return f.readline()
-
-openai.api_key = read_openai_key()
+from langchain_helper import LangchainHelper
 
 SYSTEM_MSG = "당신은 카카오 서비스 제공자입니다."
 logger = logging.getLogger("Callback")
 
-async def callback_handler(request: ChatbotRequest) -> dict:
+langchain = LangchainHelper()
+langchain.system_prompt = SYSTEM_MSG
 
-    # ===================== start =================================
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": SYSTEM_MSG},
-            {"role": "user", "content": request.userRequest.utterance},
-        ],
-        temperature=0,
-    )
-    # focus
-    output_text = response.choices[0].message.content
+def callback_handler(request: ChatbotRequest) -> dict:
+
+    # # ===================== start =================================
+    # response = openai.ChatCompletion.create(
+    #     model="gpt-3.5-turbo",
+    #     messages=[
+    #         {"role": "system", "content": SYSTEM_MSG},
+    #         {"role": "user", "content": request.userRequest.utterance},
+    #     ],
+    #     temperature=0,
+    # )
+    # # focus
+    # output_text = response.choices[0].message.content
+
+    logger.info(f"request: {request.userRequest.utterance}")
+    ai_message = langchain.send_human_message(request.userRequest.utterance)
+    output_text = ai_message.content
 
    # 참고링크 통해 payload 구조 확인 가능
     payload = {
@@ -50,8 +50,8 @@ async def callback_handler(request: ChatbotRequest) -> dict:
     time.sleep(1.0)
 
     url = request.userRequest.callbackUrl
+    logger.info(f"callback url: {url}")
 
     if url:
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url=url, json=payload, ssl=False) as resp:
-                await resp.json()
+        resp = requests.post(url=url, json=payload)
+        logger.info(f"callback response: {resp.status_code}")
