@@ -16,6 +16,7 @@ langchain = "*"
 requests = "*"
 unstructured = "*"
 tiktoken = "*"
+google-api-wrapper = "*"
 
 [dev-packages]
 pytest = "*"
