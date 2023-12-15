@@ -33,7 +33,6 @@ class LangchainHelper:
             return
         self._history_helper.write_history(user_id, message)
 
-
     @property
     def system_prompt(self):
         return self._system_prompt
@@ -62,3 +61,10 @@ class LangchainHelper:
             request_prompts += self._history_helper.get_memory(user_id).buffer_as_messages
         request_prompts.append(human_message)
         return request_prompts
+
+    def create_chain(self, prompt, output_key):
+        return LLMChain(
+            prompt=prompt,
+            output_key=output_key,
+            llm=self.chat,
+        )
