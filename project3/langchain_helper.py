@@ -12,25 +12,19 @@ from langchain.schema import (
     SystemMessage, HumanMessage, AIMessage
 )
 
+
 class LangchainHelper:
     _openai_api_key = None
-    _key_path = '../openai_key'
     _system_prompt = {}
     _history = []
 
     def __init__(self, model="gpt-3.5-turbo-16k", temperature=0.1, max_tokens=1024, max_history=10):
-        self._openai_api_key = self._read_openai_key()
         self.chat = ChatOpenAI(
-            openai_api_key=self._openai_api_key,
             model_name=model,
             temperature=temperature,
             max_tokens=max_tokens,
         )
         self._max_history = max_history
-
-    def _read_openai_key(self):
-        with open(self._key_path) as f:
-            return f.readline()
 
     def _append_to_history(self, message):
         self._history.append(message)

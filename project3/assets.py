@@ -20,8 +20,7 @@ class AssetHelper:
     _chunk_size = 500
     _chunk_overlap = 100
 
-    def __init__(self, langchain_helper, path_asset=None, file_extensions=None, path_db=None, collection_name=None):
-        self.langchain_helper = langchain_helper
+    def __init__(self, path_asset=None, file_extensions=None, path_db=None, collection_name=None):
         if path_asset:
             self._path_asset = path_asset
         if file_extensions:
@@ -30,7 +29,7 @@ class AssetHelper:
             self._path_db = path_db
         if collection_name:
             self._collection_name = collection_name
-        self._openai_embeddings = OpenAIEmbeddings(openai_api_key=self.langchain_helper._openai_api_key)
+        self._openai_embeddings = OpenAIEmbeddings()
 
         self._db = Chroma(
             persist_directory=self._path_db,
