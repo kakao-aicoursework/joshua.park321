@@ -36,9 +36,10 @@ def callback_handler(request: ChatbotRequest) -> dict:
     # )
     # # focus
     # output_text = response.choices[0].message.content
+    user_id = request.userRequest.user.id
 
     logger.info(f"request: {request.userRequest.utterance}")
-    ai_message = langchain.send_human_message(request.userRequest.utterance)
+    ai_message = langchain.send_human_message(user_id, request.userRequest.utterance)
     output_text = ai_message.content
 
    # 참고링크 통해 payload 구조 확인 가능
