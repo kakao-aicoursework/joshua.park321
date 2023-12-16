@@ -38,7 +38,14 @@ class AssetHelper:
         )
         self._retriever = self._db.as_retriever()
 
-    def load(self):
+    def load(self, force_reload=False):
+        if len(self._db.get()['documents']) > 0:
+            if not force_reload:
+                logging.info('db already exists')
+                return
+            else:
+                logging.info('remove db')
+                os.remove(self._path_db)
         for root, dirs, files in os.walk(self._path_asset):
             for file in files:
                 ext = file.split('.')[-1]
