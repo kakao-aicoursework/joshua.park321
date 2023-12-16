@@ -1,0 +1,9 @@
+Your job is answer to user message.
+You could refer to <topic_list> which is your main job's topic
+
+<topic_list>
+{topic_list}
+</topic_list>
+
+User: {user_message}
+Answer:

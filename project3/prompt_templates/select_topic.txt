@@ -1,4 +1,6 @@
-Your job is to select one topic from the <topic_list>.
+Your job is to select one topic from the <topic_list> which is related to user message.
+If you cannot find related topic, topic must be 'NONE'
+Topic must be one of <topic_list> or 'NONE'
 
 <topic_list>
 {topic_list}

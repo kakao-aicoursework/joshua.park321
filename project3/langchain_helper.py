@@ -11,6 +11,7 @@ from langchain.prompts.chat import (
 from langchain.schema import (
     SystemMessage, HumanMessage, AIMessage
 )
+from langchain_core.prompts import PipelinePromptTemplate
 
 from project3.chat_history import ChatHistoryHelper
 
@@ -70,9 +71,10 @@ class LangchainHelper:
             _prompt = ChatPromptTemplate.from_template(template=open(template_file_path).read())
         if not _prompt:
             raise ValueError('prompt or prompt_file_path should be given')
+
         kwargs = dict(
             llm=self.chat,
-            prompt=_prompt
+            prompt=(self.system_prompt + _prompt)
         )
         if output_key:
             kwargs['output_key'] = output_key
