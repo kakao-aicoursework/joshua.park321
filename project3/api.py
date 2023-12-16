@@ -2,9 +2,9 @@
 from fastapi import FastAPI
 from fastapi import BackgroundTasks
 from fastapi.responses import HTMLResponse
-from dto import ChatbotRequest
-from samples import simple_text_sample, basic_card_sample, commerce_card_sample
-from callback import callback_handler
+from project3.dto import ChatbotRequest
+from project3.samples import simple_text_sample, basic_card_sample, commerce_card_sample
+from project3.callback import callback_handler
 import openai
 
 app = FastAPI()
