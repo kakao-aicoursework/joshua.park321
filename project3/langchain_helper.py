@@ -62,9 +62,18 @@ class LangchainHelper:
         request_prompts.append(human_message)
         return request_prompts
 
-    def create_chain(self, prompt, output_key):
-        return LLMChain(
-            prompt=prompt,
-            output_key=output_key,
+    def create_chain(self, prompt=None, template_file_path=None, output_key=None):
+        _prompt = None
+        if prompt:
+            _prompt = prompt
+        if template_file_path:
+            _prompt = ChatPromptTemplate.from_template(template=open(template_file_path).read())
+        if not _prompt:
+            raise ValueError('prompt or prompt_file_path should be given')
+        kwargs = dict(
             llm=self.chat,
+            prompt=_prompt
         )
+        if output_key:
+            kwargs['output_key'] = output_key
+        return LLMChain(**kwargs)

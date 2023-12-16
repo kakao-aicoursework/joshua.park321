@@ -1,0 +1,8 @@
+Your job is to select one topic from the <topic_list>.
+
+<topic_list>
+{topic_list}
+</topic_list>
+
+User: {user_message}
+Topic:

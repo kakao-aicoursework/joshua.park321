@@ -1,0 +1,17 @@
+Your job is to describe about given Topic.
+additional information about topic is given in <document> and <web_search_result>
+if user's message is not clear, you can ask for more information.
+if you can answer the question, answer with simple 2 ~ 3 sentences, show link if necessary.
+
+<document>
+{document}
+</document>
+
+<web_search_result>
+{web_search_result}
+</web_search_result>
+
+User: {user_message}
+Topic: {topic}
+
+Answer:

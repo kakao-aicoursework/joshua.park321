@@ -9,8 +9,8 @@ from langchain_community.document_loaders import TextLoader
 
 
 class AssetHelper:
-    _path_asset = pathlib.Path(__file__).parent.parent.resolve() / 'data'
-    _path_db = pathlib.Path(__file__).parent.parent.resolve() / 'chroma-persist'
+    _path_asset = str(pathlib.Path(__file__).parent.parent.resolve() / 'data')
+    _path_db = str(pathlib.Path(__file__).parent.parent.resolve() / 'chroma-persist')
     _collection_name = 'kakao-api'
     _file_extensions = ['txt']
     _loader_dict = {
@@ -22,11 +22,11 @@ class AssetHelper:
 
     def __init__(self, path_asset=None, file_extensions=None, path_db=None, collection_name=None):
         if path_asset:
-            self._path_asset = path_asset
+            self._path_asset = str(path_asset)
         if file_extensions:
             self._file_extensions = file_extensions
         if path_db:
-            self._path_db = path_db
+            self._path_db = str(path_db)
         if collection_name:
             self._collection_name = collection_name
         self._openai_embeddings = OpenAIEmbeddings()

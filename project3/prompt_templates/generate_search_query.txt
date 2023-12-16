@@ -1,0 +1,10 @@
+Your job is generate a search query.
+Read user message from <user_message> and generate a search query.
+Search query should be constructed with simple words but must be contain user's original meaning.
+Search query will be used to search for a product in the database and web search.
+
+<user_message>
+{user_message}
+</user_message>
+
+Search Query:
